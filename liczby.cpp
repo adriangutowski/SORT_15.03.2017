@@ -1,23 +1,40 @@
 #include <fstream>
-#include <stdio.h>
-#include <string>
+#include <iostream>
 
 using namespace std;
 
-void sortujMal()
+int znajdzNaj( int poprzednia )
 {
    ifstream liczby("liczby.txt");
-   ofstream liczby_mal("liczby_mal.txt");
-   int liczby_ilosc = 28;
-   int liczba;
 
-   for(int i = 0; i < liczby_ilosc; ++i)
+   int liczba;
+    int najwieksza = 0;
+   while( !liczby.eof() )
    {
        liczby >> liczba;
-       printf("%d\n", liczba);
+       //cout << liczba << endl;
+       if( liczba > najwieksza && liczba < poprzednia )
+{
+            najwieksza = liczba;
+        //cout << najwieksza << endl;
+}
    }
+    cout << najwieksza << endl;
 
+    return najwieksza;
+}
 
+void sortujMal()
+{
+    ofstream liczby_mal("liczby_mal.txt");
+
+    int poprzednia = 9999;
+
+    for(int i = 0; i < 28; ++i )
+    {
+       poprzednia = znajdzNaj(poprzednia);
+       liczby_mal << poprzednia << endl;
+    }
 }
 
 int main()
