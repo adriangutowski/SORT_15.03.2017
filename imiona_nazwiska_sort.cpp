@@ -1,8 +1,50 @@
 #include <stdio.h>
 #include <string.h>
+#include <fstream>
+#include <iostream>
 
-void main( void )
+using namespace std;
+
+int znajdzNaj( int poprzednia )
 {
+   ifstream liczby("liczby.txt");
+
+   int liczba;
+    int najwieksza = 0;
+   while( !liczby.eof() )
+   {
+       liczby >> liczba;
+       //cout << liczba << endl;
+       if( liczba > najwieksza && liczba < poprzednia )
+{
+            najwieksza = liczba;
+        //cout << najwieksza << endl;
+}
+   }
+    cout << najwieksza << endl;
+
+    return najwieksza;
+}
+
+void sortujMal()
+{
+    ofstream liczby_mal("liczby_mal.txt");
+
+    int poprzednia = 9999;
+
+    for(int i = 0; i < 28; ++i )
+    {
+       poprzednia = znajdzNaj(poprzednia);
+       liczby_mal << poprzednia << endl;
+    }
+}
+
+int main()
+{
+    // Liczby
+    sortujMal();
+
+    // Nazwiska
   FILE *plik;
   char strtmp[ 501 ];
   char nazwisko[ 501 ];
@@ -14,17 +56,17 @@ void main( void )
   plik = fopen("nazwiska.txt", "rt");
   if(plik==NULL)
   {
-    printf("B³¹d odczytu pliku\n");
+    printf("BÂ³Â¹d odczytu pliku\n");
     return 0;
   }
   index=0;
   while((!feof(plik))&&(index<100))
   {
-   
+
     res=fscanf(plik,"%s",nazwisko);
     if(res!=1)
     {
-      printf("B³¹d odczytu");
+      printf("BÂ³Â¹d odczytu");
       break;
     }
     strcpy(Nazwiska[index],nazwisko);
@@ -37,7 +79,7 @@ void main( void )
     {
       if(strcmp(Nazwiska[j],Nazwiska[j+1])>0)
       {
-    
+
         strcpy(strtmp,Nazwiska[j]);
         strcpy(Nazwiska[j],Nazwiska[j+1]);
         strcpy(Nazwiska[j+1],strtmp);
@@ -48,7 +90,7 @@ void main( void )
   plik = fopen("nazwiska_leksyko.txt", "w+t");
   if(plik==NULL)
   {
-    printf("B³¹d otwarcia pliku\n");
+    printf("BÂ³Â¹d otwarcia pliku\n");
     return 0;
   }
   for(i=0;i<index;i++)
@@ -58,5 +100,5 @@ void main( void )
   }
   fclose( plik );
 
-  return;
+  return 0;
 }
